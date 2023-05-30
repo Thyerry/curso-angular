@@ -13,13 +13,10 @@
 <form [formGroup]="form">
 	<fieldset>
 		<label>Titulo: </label>
-		<input
-			type="text"
-			placeholder="Título da Tarefa"
-			maxlength="60"
-			formControlName="title"
-		/>
-		<small>este campo deve conter entre 3 e 60 caracteres</small>
-		<button>Confirmar</button>
+		<input type="text" placeholder="Título da Tarefa" maxlength="60" formControlName="title" />
+		<small *ngIf="form.controls['title'].invalid && !form.controls['title'].pristine">
+			este campo deve conter entre 3 e 60 caracteres
+		</small>
+		<button [disabled]="form.invalid" (click)="add()">Confirmar</button>
 	</fieldset>
 </form>
