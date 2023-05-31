@@ -1,6 +1,8 @@
 <h1 class="title animate__animated animate__tada">{{ title }}</h1>
 <ul class="animate__animated animate__flipInX" *ngIf="mode == 'list'">
-	<p *ngIf="todos.length == 0" class="text-center"><small>Sem tarefas</small></p>
+	<p *ngIf="todos.length == 0" class="text-center">
+		<small>Sem tarefas</small>
+	</p>
 	<li *ngFor="let todo of todos">
 		{{ todo.title }}
 		<button *ngIf="!todo.done" (click)="markAsDone(todo)">
@@ -18,7 +20,11 @@
 	</li>
 </ul>
 
-<div id="modal" class="animate__animated animate__flipInX" *ngIf="mode == 'add'">
+<div
+	id="modal"
+	class="animate__animated animate__flipInX"
+	*ngIf="mode == 'add'"
+>
 	<h1 class="text-center">Nova Tarefa</h1>
 	<form [formGroup]="form">
 		<div class="message-container">
@@ -30,13 +36,16 @@
 			/>
 			<ng-container
 				*ngIf="
-					form.controls['title'].invalid && !form.controls['title'].pristine;
+					form.controls['title'].invalid &&
+						!form.controls['title'].pristine;
 					then danger;
 					else noDanger
 				"
 			></ng-container>
 			<ng-template #danger>
-				<small class="danger"> este campo deve conter entre 3 e 60 caracteres </small>
+				<small class="danger">
+					este campo deve conter entre 3 e 60 caracteres
+				</small>
 			</ng-template>
 			<ng-template #noDanger>
 				<small class="no-danger">{{ " " }}</small>
@@ -47,7 +56,11 @@
 				<i class="fa-regular fa-circle-check"></i>
 				CONFIRMAR
 			</button>
-			<button class="button" (click)="changeMode('list')" *ngIf="mode == 'add'">
+			<button
+				class="button"
+				(click)="changeMode('list')"
+				*ngIf="mode == 'add'"
+			>
 				<i class="fa-solid fa-xmark"></i>
 				CANCELAR
 			</button>
@@ -63,3 +76,4 @@
 	<i class="fa-solid fa-plus-circle"></i>
 	NOVA TAREFA
 </button>
+<lib-ng-toast></lib-ng-toast>

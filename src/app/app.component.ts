@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Todo } from '../models/todo.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
 	selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent {
 	public form: FormGroup;
 	public mode = 'list';
 
-	constructor(private fb: FormBuilder) {
+	constructor(private fb: FormBuilder, private toast: NgToastService) {
 		this.form = this.fb.group({
 			title: [
 				'',
@@ -32,6 +33,12 @@ export class AppComponent {
 		this.todos.push(new Todo(newid, newtitle, false));
 		this.save();
 		this.clear();
+		this.toast.success({
+			detail: 'Nova tarefa!',
+			summary: newtitle,
+			position: 'bl',
+			duration: 5000,
+		});
 	}
 	remove(todo: Todo) {
 		const index = this.todos.indexOf(todo);
