@@ -9,8 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AppComponent {
 	public todos: Todo[] = [];
-	public title: String = 'minha lista';
+	public title: String = 'Minha Lista';
 	public form: FormGroup;
+	public mode = 'list';
 
 	constructor(private fb: FormBuilder) {
 		this.form = this.fb.group({
@@ -44,6 +45,9 @@ export class AppComponent {
 	markAsUndone(todo: Todo) {
 		todo.done = false;
 		this.save();
+	}
+	changeMode(newmode: string) {
+		this.mode = newmode;
 	}
 	save() {
 		localStorage.setItem('todos', JSON.stringify(this.todos));

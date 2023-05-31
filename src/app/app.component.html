@@ -1,23 +1,65 @@
-<h1>{{ title }}</h1>
-<ul>
-	<p *ngIf="todos.length == 0"><small>Sem tarefas</small></p>
+<h1 class="title animate__animated animate__tada">{{ title }}</h1>
+<ul class="animate__animated animate__flipInX" *ngIf="mode == 'list'">
+	<p *ngIf="todos.length == 0" class="text-center"><small>Sem tarefas</small></p>
 	<li *ngFor="let todo of todos">
-		{{ todo.title }} -
-		<button *ngIf="!todo.done" (click)="markAsDone(todo)">CONCLUIR</button>
-		|
-		<button *ngIf="todo.done" (click)="markAsUndone(todo)">REFAZER</button>
-		|
-		<button (click)="remove(todo)">REMOVER</button>
+		{{ todo.title }}
+		<button *ngIf="!todo.done" (click)="markAsDone(todo)">
+			<i class="fa-solid fa-check"></i>
+			<!-- CONCLUIR -->
+		</button>
+		<button *ngIf="todo.done" (click)="markAsUndone(todo)">
+			<i class="fa-solid fa-repeat"></i>
+			<!-- REFAZER -->
+		</button>
+		<button (click)="remove(todo)">
+			<i class="fa-solid fa-trash-can"></i>
+			<!-- REMOVE -->
+		</button>
 	</li>
 </ul>
 
-<form [formGroup]="form">
-	<fieldset>
-		<label>Titulo: </label>
-		<input type="text" placeholder="Título da Tarefa" maxlength="60" formControlName="title" />
-		<small *ngIf="form.controls['title'].invalid && !form.controls['title'].pristine">
-			este campo deve conter entre 3 e 60 caracteres
-		</small>
-		<button [disabled]="form.invalid" (click)="add()">Confirmar</button>
-	</fieldset>
-</form>
+<div id="modal" class="animate__animated animate__flipInX" *ngIf="mode == 'add'">
+	<h1 class="text-center">Nova Tarefa</h1>
+	<form [formGroup]="form">
+		<div class="message-container">
+			<input
+				type="text"
+				placeholder="Título da tarefa"
+				maxlength="60"
+				formControlName="title"
+			/>
+			<ng-container
+				*ngIf="
+					form.controls['title'].invalid && !form.controls['title'].pristine;
+					then danger;
+					else noDanger
+				"
+			></ng-container>
+			<ng-template #danger>
+				<small class="danger"> este campo deve conter entre 3 e 60 caracteres </small>
+			</ng-template>
+			<ng-template #noDanger>
+				<small class="no-danger">{{ " " }}</small>
+			</ng-template>
+		</div>
+		<div class="text-center button-container">
+			<button [disabled]="form.invalid" (click)="add()" class="button">
+				<i class="fa-regular fa-circle-check"></i>
+				CONFIRMAR
+			</button>
+			<button class="button" (click)="changeMode('list')" *ngIf="mode == 'add'">
+				<i class="fa-solid fa-xmark"></i>
+				CANCELAR
+			</button>
+		</div>
+	</form>
+</div>
+
+<button
+	class="animate__animated animate__fadeInUp button"
+	(click)="changeMode('add')"
+	*ngIf="mode == 'list'"
+>
+	<i class="fa-solid fa-plus-circle"></i>
+	NOVA TAREFA
+</button>
